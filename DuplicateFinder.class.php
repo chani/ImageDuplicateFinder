@@ -3,6 +3,9 @@
 /**
  * Class DuplicateFinder
  *
+ * DuplicateFinder tries to find duplicates of images by calling several different finder-objects
+ * which do the real work. This is just a controller putting everything together.
+ *
  * @author Jean-Michel Bruenn <himself@jeanbruenn.info>
  * @copyright 2018 <himself@jeanbruenn.info>
  * @license https://opensource.org/licenses/MIT The MIT License

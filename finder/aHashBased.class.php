@@ -3,6 +3,10 @@
 /**
  * Class aHashBased
  *
+ * This class uses an aHash-based-approach to find duplicates
+ * by scaling down the photo to 8x8px, getting the average (mean)
+ * and thresholding the image. Finally the IM Fingerprint is retrieved
+ *
  * @author Jean-Michel Bruenn <himself@jeanbruenn.info>
  * @copyright 2018 <himself@jeanbruenn.info>
  * @license https://opensource.org/licenses/MIT The MIT License

@@ -3,6 +3,10 @@
 /**
  * Class ExifThumbnailBased
  *
+ * This one tries to retrieve the thumbnail embedded in the image
+ * using exif_thumbnail. Most of the times this won't work at all.
+ * In 4k photos I just had two in which exif_thumbnail worked.
+ *
  * @author Jean-Michel Bruenn <himself@jeanbruenn.info>
  * @copyright 2018 <himself@jeanbruenn.info>
  * @license https://opensource.org/licenses/MIT The MIT License
