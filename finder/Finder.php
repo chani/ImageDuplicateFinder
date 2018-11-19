@@ -9,4 +9,13 @@
  */
 interface Finder
 {
+    /**
+     * @param Duplicates $duplicates
+     */
+    public function injectDuplicates(Duplicates $duplicates);
+
+    /**
+     * @param $file
+     */
+    public function searchDuplicates($file);
 }
