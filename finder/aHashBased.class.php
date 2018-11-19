@@ -41,8 +41,8 @@ class aHashBased extends GenericFinder implements Finder
                 $bits .= $pixel->getcolor()['b'] / 255;
             }
         }
-        $hash = dechex(bindec($bits))."\n";
-
+        $hash = dechex(bindec($bits));
+        
         $im->clear();
 
         if (isset($this->hashes[$hash])) {
