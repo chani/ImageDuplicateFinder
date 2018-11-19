@@ -60,15 +60,15 @@ class DuplicateFinder
         $files = array();
         if ($handle = opendir($path)) {
             while (false !== ($entry = readdir($handle))) {
-                if ($entry == "." && $entry == "..")
-                    continue;
-
-                if (!strstr(mime_content_type($path . '/' . $entry), 'image/'))
+                if ($entry == "." || $entry == "..")
                     continue;
 
                 if (is_dir($path . '/' . $entry)) {
                     $files = array_merge($files, $this->getFiles($path . '/' . $entry));
                 } else {
+                    if (!strstr(mime_content_type($path . '/' . $entry), 'image/'))
+                        continue;
+
                     $files[] = $path . '/' . $entry;
                 }
 
