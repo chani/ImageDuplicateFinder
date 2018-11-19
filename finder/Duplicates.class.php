@@ -13,13 +13,22 @@
  */
 final class Duplicates
 {
+    /**
+     * @var null
+     */
     public static $instance = null;
+    /**
+     * @var array
+     */
     private $duplicates = [];
 
     private function __construct()
     {
     }
 
+    /**
+     * @return Duplicates|null
+     */
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
@@ -29,6 +38,11 @@ final class Duplicates
         return self::$instance;
     }
 
+    /**
+     * @todo optimize me
+     * @param string $file
+     * @param string $duplicateFile
+     */
     public function add($file, $duplicateFile)
     {
         $found = false;
@@ -43,6 +57,8 @@ final class Duplicates
             }
             $found = true;
         } else {
+            // yes, the runtime will increase with every added duplicate. But I didn't find a nicer way
+            // to do this, yet.
             foreach($this->duplicates as $key => $duplicates){
                 if(in_array($file, $duplicates)){
                     $this->duplicates[$key][] = $duplicateFile;
@@ -63,11 +79,9 @@ final class Duplicates
         }
     }
 
-    public function get($key)
-    {
-        return $this->duplicates[$key];
-    }
-
+    /**
+     * @return array
+     */
     public function getAll()
     {
         return $this->duplicates;

@@ -13,8 +13,15 @@
  */
 class aHashBased extends GenericFinder implements Finder
 {
+    /**
+     * @var array
+     */
     private $hashes = [];
 
+    /**
+     * @param string $file
+     * @throws ImagickException
+     */
     public function searchDuplicates($file)
     {
         $im = new \Imagick($file);

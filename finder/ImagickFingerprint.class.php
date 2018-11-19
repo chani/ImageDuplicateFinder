@@ -11,8 +11,15 @@
  */
 class ImagickFingerprint extends GenericFinder implements Finder
 {
+    /**
+     * @var array
+     */
     private $hashes = [];
 
+    /**
+     * @param $file
+     * @throws ImagickException
+     */
     public function searchDuplicates($file)
     {
         $im = new \Imagick($file);
