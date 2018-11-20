@@ -23,4 +23,12 @@ abstract class GenericFinder
     {
         $this->duplicates = $duplicates;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return get_class($this);
+    }
 }

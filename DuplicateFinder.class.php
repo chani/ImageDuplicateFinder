@@ -36,46 +36,37 @@ class DuplicateFinder
     {
         $finder->injectDuplicates($this->duplicates);
         $this->finder[] = $finder;
-
-    }
-
-    /**
-     * @param string $path
-     */
-    public function searchDuplicates($path)
-    {
-        foreach ($this->getFiles($path) as $file) {
-            foreach ($this->finder as $finder) {
-                $finder->searchDuplicates($file);
-            }
-        }
     }
 
     /**
      * @param $path
-     * @return array
      */
-    private function getFiles($path)
+    public function searchDuplicates($path)
     {
-        $files = array();
         if ($handle = opendir($path)) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry == "." || $entry == "..")
                     continue;
+                $file = $path . '/' . $entry;
 
-                if (is_dir($path . '/' . $entry)) {
-                    $files = array_merge($files, $this->getFiles($path . '/' . $entry));
+                if (is_dir($file)) {
+                    $this->searchDuplicates($file);
                 } else {
-                    if (!strstr(mime_content_type($path . '/' . $entry), 'image/'))
+                    if (!strstr(mime_content_type($file), 'image/'))
                         continue;
 
-                    $files[] = $path . '/' . $entry;
+                    foreach ($this->finder as $finder) {
+//                        $start = microtime(true);
+                        $finder->searchDuplicates($file);
+//                        $end = microtime(true);
+//                        $diff = round($end - $start, 4);
+//                        echo $finder->getName() . ' took ' . $diff . 's' . "\n";
+                    }
+//                    echo "\n";
                 }
-
             }
             closedir($handle);
         }
-        return $files;
     }
 
     /**
