@@ -21,6 +21,7 @@ class aHashBased extends GenericFinder implements Finder
 
     /**
      * @param $file
+     * @return bool
      * @throws ImagickException
      * @throws ImagickPixelException
      */
@@ -42,13 +43,15 @@ class aHashBased extends GenericFinder implements Finder
             }
         }
         $hash = dechex(bindec($bits));
-        
+
         $im->clear();
 
         if (isset($this->hashes[$hash])) {
             $this->duplicates->add($file, $this->hashes[$hash]);
+            return true;
         }
 
         $this->hashes[$hash] = $file;
+        return false;
     }
 }

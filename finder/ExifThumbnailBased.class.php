@@ -20,7 +20,8 @@ class ExifThumbnailBased extends GenericFinder implements Finder
     private $hashes = [];
 
     /**
-     * @param string $file
+     * @param $file
+     * @return bool
      * @throws ImagickException
      */
     public function searchDuplicates($file)
@@ -34,9 +35,11 @@ class ExifThumbnailBased extends GenericFinder implements Finder
 
             if (isset($this->hashes[$hash])) {
                 $this->duplicates->add($file, $this->hashes[$hash]);
+                return true;
             }
 
             $this->hashes[$hash] = $file;
         }
+        return false;
     }
 }

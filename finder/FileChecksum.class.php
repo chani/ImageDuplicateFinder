@@ -17,15 +17,18 @@ class FileChecksum extends GenericFinder implements Finder
     private $hashes = [];
 
     /**
-     * @param string $file
+     * @param $file
+     * @return bool
      */
     public function searchDuplicates($file)
     {
         $hash = sha1_file($file);
         if (isset($this->hashes[$hash])) {
             $this->duplicates->add($file, $this->hashes[$hash]);
+            return true;
         }
 
         $this->hashes[$hash] = $file;
+        return false;
     }
 }
