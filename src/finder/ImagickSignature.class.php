@@ -14,11 +14,6 @@ namespace Image\DuplicateFinder\finder;
 class ImagickSignature extends AbstractFinder implements Finder
 {
     /**
-     * @var array
-     */
-    private $hashes = [];
-
-    /**
      * @param $file
      *
      * @return string
@@ -51,7 +46,6 @@ class ImagickSignature extends AbstractFinder implements Finder
         $im->clear();
         unset($im);
 
-        $this->hashes[$hash] = $file;
         return $hash;
     }
 }

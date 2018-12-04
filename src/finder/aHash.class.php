@@ -17,11 +17,6 @@ namespace Image\DuplicateFinder\finder;
 class aHash extends AbstractFinder implements Finder
 {
     /**
-     * @var array
-     */
-    private $hashes = [];
-
-    /**
      * @param $file
      *
      * @return string

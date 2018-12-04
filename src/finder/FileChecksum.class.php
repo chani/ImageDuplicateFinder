@@ -14,11 +14,6 @@ namespace Image\DuplicateFinder\finder;
 class FileChecksum extends AbstractFinder implements Finder
 {
     /**
-     * @var array
-     */
-    private $hashes = [];
-
-    /**
      * @param $file
      *
      * @return bool
@@ -26,7 +21,6 @@ class FileChecksum extends AbstractFinder implements Finder
     public function getHash($file)
     {
         $hash = sha1_file($file);
-        $this->hashes[$hash] = $file;
         return $hash;
     }
 }
