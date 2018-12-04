@@ -1,7 +1,7 @@
 <?php
-
+namespace Image\DuplicateFinder\finder;
 /**
- * Interface Finder
+ * Interface FinderInterface
  *
  * @author Jean-Michel Bruenn <himself@jeanbruenn.info>
  * @copyright 2018 <himself@jeanbruenn.info>
@@ -10,12 +10,9 @@
 interface Finder
 {
     /**
-     * @param Duplicates $duplicates
-     */
-    public function injectDuplicates(Duplicates $duplicates);
-
-    /**
      * @param $file
+     *
+     * @return string
      */
-    public function searchDuplicates($file);
+    public function getHash($file);
 }

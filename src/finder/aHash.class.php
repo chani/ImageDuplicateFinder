@@ -1,5 +1,7 @@
 <?php
 
+namespace Image\DuplicateFinder\finder;
+
 /**
  * Class aHashBased
  *
@@ -12,7 +14,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License
  * @see https://www.hackerfactor.com/blog/?/archives/432-Looks-Like-It.html
  */
-class aHashBased extends GenericFinder implements Finder
+class aHash extends AbstractFinder implements Finder
 {
     /**
      * @var array
@@ -21,14 +23,33 @@ class aHashBased extends GenericFinder implements Finder
 
     /**
      * @param $file
-     * @return bool
-     * @throws ImagickException
-     * @throws ImagickPixelException
+     *
+     * @return string
+     * @throws \ImagickException
+     * @throws \ImagickPixelException
      */
-    public function searchDuplicates($file)
+    public function getHash($file)
     {
-        $im = new \Imagick($file);
+        $useThumbnail = false;
+        $im = new \Imagick();
+
+        // using the embedded thumbnail reduced time from 3.4 seconds to 0.43 seconds for 67 photos
+        $thumbnail = @exif_thumbnail($file);
+        if ($thumbnail !== false) {
+            $im->readImageBlob($thumbnail);
+            if ($im->getImageWidth() >= 64 && $im->getImageHeight() >= 64) {
+                $useThumbnail = true;
+            }
+        }
+
+        if (!$useThumbnail) {
+            $im = new \Imagick($file);
+
+        }
         $im->transformImageColorspace(\Imagick::COLORSPACE_GRAY);
+        /**
+         * @todo make it possible to work with 16x16 dechex(bindec()) will fail here
+         */
         $im->sampleImage(8, 8);
         $data = $im->getImageChannelMean(\Imagick::CHANNEL_RED);
         $mean = $data['mean'];
@@ -38,20 +59,13 @@ class aHashBased extends GenericFinder implements Finder
         foreach ($imageIterator as $pixels) {
             /** @var $pixel \ImagickPixel * */
             foreach ($pixels as $pixel) {
-                /** @todo 255? */
-                $bits .= $pixel->getcolor()['b'] / 255;
+                $bits .= $pixel->getcolor()['r'] / 255;
             }
         }
         $hash = dechex(bindec($bits));
-
         $im->clear();
+        unset($im);
 
-        if (isset($this->hashes[$hash])) {
-            $this->duplicates->add($file, $this->hashes[$hash]);
-            return true;
-        }
-
-        $this->hashes[$hash] = $file;
-        return false;
+        return $hash;
     }
 }
